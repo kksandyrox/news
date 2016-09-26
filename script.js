@@ -39,7 +39,7 @@
 
 	});
 
-	scotchApp.controller('generalController', function($scope, $http, $route) {
+	scotchApp.controller('generalController', function($scope, $http, $route, $location) {
 		function getCatIdFromName(categories, name) {
 			return categories[name];
 
@@ -51,7 +51,7 @@
 		});
 	});
 
-	scotchApp.controller('sourcesController', function($scope, $http) {
+	scotchApp.controller('sourcesController', function($scope, $http, $location) {
 		$http.get("http://" + $location.host() + "/server/api/sources")
 		.then(function (response) {
 			console.log(response.data);
