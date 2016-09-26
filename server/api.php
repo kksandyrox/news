@@ -106,8 +106,10 @@ class Api {
 
 $api = new Api();
 
-$method = explode('/', $_GET['request'])[0];
-$param = explode('/', $_GET['request'])[1];
+$urlParams = explode('/', $_GET['request']);
+
+$method = !empty($urlParams[0]) ? $urlParams[0] : '';
+$param = !empty($urlParams[1]) ? $urlParams[1] : '';
 
 switch ($method) {
 	case 'sources':

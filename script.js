@@ -24,8 +24,14 @@
 			// route for the about page
 			.when('/sources', {
 				templateUrl : 'pages/sources.html',
-				controller  : 'sourcesController'
+				controller  : 'sourceNewsController'
 			})
+
+			// .when('/sources/:id', {
+			// 	templateUrl : 'pages/sources.html',
+			// 	controller  : 'sourceNewsController'
+			// })
+
 			.when('/:name', {
 				templateUrl : 'pages/general.html',
 				controller  : 'generalController',
@@ -46,15 +52,31 @@
 	});
 
 	scotchApp.controller('sourcesController', function($scope, $http) {
-		$scope.test = 'Yes';
+		$http.get("http://news.sj/server/api/sources")
+		.then(function (response) {
+			console.log(response.data);
+			$scope.sources = response.data;
+		})
 	});
 
+	scotchApp.controller('sourceNewsController', function($scope, $http, $route) {
+		var source_id = 1;
+		if($route.current.params.source) {
+			source_id = $route.current.params.source;
+		}
 
-	scotchApp.controller('aboutController', function($scope) {
-		$scope.message = 'Look! I am an about page.';
-	});
+		$http.get("http://news.sj/server/api/sources")
+		.then(function (response) {
+			$scope.sources = response.data;
+		})
 
-
-	scotchApp.controller('mainController', function($scope) {
-		// $scope.message = 'Contact us! JK. This is just a demo.';
+		$http.get("http://news.sj/server/api/sourceNews/" + source_id)
+		.then(function (response) {
+			$scope.sourceNews = response.data;
+			$scope.currentSource = source_id;
+			$scope.topNews = _.groupBy(response.data, 'sort_id')['1'];
+			$scope.latestNews = _.groupBy(response.data, 'sort_id')['2'];
+			$scope.popularNews = _.groupBy(response.data, 'sort_id')['3'];
+			console.log(_.groupBy(response.data, 'sort_id'));
+		})
 	});
