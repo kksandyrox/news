@@ -70,7 +70,7 @@
 			$scope.sources = response.data;
 		})
 
-		$http.get("http://news.sj/server/api/sourceNews/" + source_id)
+		$http.get("http://" + $location.host() + "/server/api/sourceNews/" + source_id)
 		.then(function (response) {
 			$scope.sourceNews = response.data;
 			$scope.currentSource = source_id;
