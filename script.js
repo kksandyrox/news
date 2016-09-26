@@ -45,27 +45,27 @@
 
 		}
 		var category_id = getCatIdFromName(categories, $route.current.params.name);
-		$http.get("http://news.sj/server/api/categoryNews/" + category_id)
+		$http.get("http://" + $location.host() + "/server/api/categoryNews/" + category_id)
 		.then(function (response) {
 			$scope.generalNews = response.data;
 		});
 	});
 
 	scotchApp.controller('sourcesController', function($scope, $http) {
-		$http.get("http://news.sj/server/api/sources")
+		$http.get("http://" + $location.host() + "/server/api/sources")
 		.then(function (response) {
 			console.log(response.data);
 			$scope.sources = response.data;
 		})
 	});
 
-	scotchApp.controller('sourceNewsController', function($scope, $http, $route) {
+	scotchApp.controller('sourceNewsController', function($scope, $http, $route, $location) {
 		var source_id = 1;
 		if($route.current.params.source) {
 			source_id = $route.current.params.source;
 		}
 
-		$http.get("http://news.sj/server/api/sources")
+		$http.get("http://" + $location.host() + "/server/api/sources")
 		.then(function (response) {
 			$scope.sources = response.data;
 		})
@@ -77,6 +77,7 @@
 			$scope.topNews = _.groupBy(response.data, 'sort_id')['1'];
 			$scope.latestNews = _.groupBy(response.data, 'sort_id')['2'];
 			$scope.popularNews = _.groupBy(response.data, 'sort_id')['3'];
+			console.log($location.host());
 			console.log(_.groupBy(response.data, 'sort_id'));
 		})
 	});
