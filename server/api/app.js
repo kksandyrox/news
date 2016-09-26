@@ -3,6 +3,11 @@ var bodyParser = require('body-parser');
 var app = express();
 var db = require('../../lib/database');
 var cors = require('cors');
+var server = require('http').createServer(app)
+
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8080  
+, ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+
 
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -32,6 +37,4 @@ app.get('/categoryNews/:id', function(req, res) {
 	});
 })
 
-var server = app.listen(8000, function() {
-  console.log('Server listening on port ' + server.address().port);
-});
+server.listen(port, ip);
